@@ -1,6 +1,4 @@
 {
-    "minHi": 0.8,
-    "minLo": 0.1,
     "data": [
         {
             "index": 0,

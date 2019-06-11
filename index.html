@@ -22,7 +22,6 @@
                     2-Layer Neural Network Controls - Assumes 2 Inputs, 1 Output, User Selects # Hidden Nodes
                 </div>
                 <div class="panel-body">
-                    <div>
                         <label for="activationHidden">Activation Hidden:</label>
                         <select id="activationHidden" name="activationHidden">
                             <option value="sigmoid">Sigmoid</option>
@@ -51,16 +50,14 @@
                             <option value="softsign">Softsign</option>
                             <option value="tanh">Tanh</option>
                         </select>
-                    </div>
-                    <div>
                         <label for="optimizer">Optimizer:</label>
                         <select id="optimizer" name="optimizer">
                             <option value="SGD">SGD</option>
                             <option value="Momentum">Momentum</option>
-                            <option value="ADAGRAD">ADAGRAD</option>
+                            <option value="ADAGRAD" selected>ADAGRAD</option>
                             <option value="ADADELTA">ADADELTA</option>
                             <option value="ADAM" >ADAM</option>
-                            <option value="ADAMAX" selected>ADAMAX</option>
+                            <option value="ADAMAX">ADAMAX</option>
                             <option value="RMSPROP">RMSPROP</option>
                         </select>
                         <label for="loss">Loss:</label>
@@ -69,22 +66,21 @@
                             <option value="computeWeightedLoss">ComputeWeightedLoss</option>
                             <option value="cosineDistance">CosineDistance</option>
                             <option value="hingeLoss">HingeLoss</option>
-                            <option value="huberLoss">HuberLoss</option>
+                            <option value="huberLoss" selected>HuberLoss</option>
                             <option value="logLoss">LogLoss</option>
-                            <option value="meanSquaredError" selected>MeanSquaredError</option>
+                            <option value="meanSquaredError" >MeanSquaredError</option>
                             <option value="sigmoidCrossEntropy">SigmoidCrossEntropy</option>
                             <option value="softmaxCrossEntropy">SoftmaxCrossEntropy</option>
                         </select>
-                    </div>
-                    <div>
                         <label for="nnNumHidden">Hidden Nodes:</label>
                         <input id="nnNumHidden" name="nnNumHidden" type="text" placeholder="no of hidden" value="16" />
                         <label for="nnNumEpoch">Epochs:</label>
-                        <input id="nnNumEpoch" name="nnNumEpoch" type="text" placeholder="no of Epoch" value="4000" />
-                    </div>
+                        <input id="nnNumEpoch" name="nnNumEpoch" type="text" placeholder="no of Epoch" value="6000" />
+                        <label for="nnLossGoal">Loss Goal:</label>
+                        <input id="nnLossGoal" name="nnLossGoal" type="text" placeholder="Loss Goal" value="0.003" />
                     <div class="clearFix">
                         Learning Rate: <span id="learningRate"></span>
-                        <input id="learningRateSlider" type="range" min="0.001" max="2.0" step="0.001" value="0.2"
+                        <input id="learningRateSlider" type="range" min="0.001" max="2.0" step="0.001" value="0.3"
                             onchange="doChangeLearningRate(this)">
                     </div>
                     <button class="btn btn-info" onclick="doCreateNetwork()">Create Network</button>

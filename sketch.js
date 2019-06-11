@@ -26,7 +26,7 @@ function draw() {
 
         if (thereExistsNetwork) drawTrainingResults();
 
-        //console.log('Tensors: ' + tf.memory().numTensors);
+        console.log('Tensors: ' + tf.memory().numTensors);
 
     } catch (error) {
         console.log(error);

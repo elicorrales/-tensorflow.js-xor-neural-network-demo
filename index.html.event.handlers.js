@@ -40,12 +40,13 @@ const doCreateNetwork = () => {
 
     try {
         let numHidden = parseInt(document.getElementById('nnNumHidden').value);
-        let numEpoch = parseInt(document.getElementById('nnNumEpoch').value);
         let activationHidden = document.getElementById('activationHidden').value;
         let activationOutputs = document.getElementById('activationOutputs').value;
         let optimizer = document.getElementById('optimizer').value;
         let loss = document.getElementById('loss').value;
-        createNeuralNetwork(numHidden, activationHidden, activationOutputs, optimizer, loss, numEpoch);
+        let numEpoch = parseInt(document.getElementById('nnNumEpoch').value);
+        let lossGoal = parseFloat(document.getElementById('nnLossGoal').value);
+        createNeuralNetwork(numHidden, activationHidden, activationOutputs, optimizer, loss, numEpoch, lossGoal);
 
         assemblePredictionInputs();
 
@@ -61,6 +62,7 @@ const doCreateNetwork = () => {
 const doTrainNetwork = () => {
     networkTrained = false;
     trainTheNetwork = true;
+    startNetworTrainTime = new Date().getTime();
     clearMessages();
     trainTheModel();
 }

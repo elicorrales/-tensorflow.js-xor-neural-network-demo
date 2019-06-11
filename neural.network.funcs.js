@@ -10,8 +10,9 @@ let tfOutputs;
 let tfOptimizer;
 let tfLoss;
 let tfInputs;
-let momentum = 0.2;
+let momentum = 0.4;
 let numEpoch;
+let lossGoal;
 
 let learningRate = document.getElementById('learningRateSlider').value;
 document.getElementById('learningRate').innerHTML = learningRate;
@@ -20,6 +21,7 @@ let thereExistsNetwork = false;
 let trainTheNetwork = false;
 let trainNetworkWait = false;
 let networkTrained = false;
+let startNetworTrainTime;
 
 
 const trainTheModel = () => {
@@ -32,8 +34,17 @@ const trainTheModel = () => {
             try {
                 train()
                     .then(result => {
-                        console.log(result.history.loss[0]);
+                        //console.log(result.history.loss[0]);
                         //trainNetworkWait = false;
+                        let now = new Date().getTime();
+                        if (result.history.loss[0] < lossGoal) {
+                            trainTheNetwork = false;
+                            networkTrained = true;
+                            showMessages('success','Network Trained in ' + round((now - startNetworTrainTime)/1000) + ' secs');
+                            return;
+                        }
+
+                        showMessages('info','Network Training ... ' + round((now - startNetworTrainTime)/1000) + ' secs');
 
                         //if (trainTheNetwork && !networkTrained && !trainNetworkWait) {
                         if (trainTheNetwork && !networkTrained) {
@@ -117,6 +128,7 @@ const assemblePredictionInputs = () => {
 
 const drawPredictions = (yOutputs) => {
 
+    noStroke();
     //console.log(yOutputs);
     let yOutIdx = 0;
     for (let i = 0; i < canvasCols; i++) {
@@ -136,12 +148,14 @@ const drawPredictions = (yOutputs) => {
 
 }
 
-const createNeuralNetwork = (numHidden, activationHidden, activationOutputs, useWhichOptimizer, useWhichLoss, epoch) => {
+const createNeuralNetwork = (numHidden, activationHidden, activationOutputs, useWhichOptimizer, useWhichLoss, epoch, goal) => {
 
         numEpoch = epoch;
+        lossGoal = goal;
+
 
         if (tfModel !== undefined) {
-            tfModel.dispose();
+            try { tfModel.dispose(); } catch (error) {}
         }
 
         tfModel = tf.sequential();
@@ -170,7 +184,7 @@ const createNeuralNetwork = (numHidden, activationHidden, activationOutputs, use
             case 'SGD': tfOptimizer = tf.train.sgd(learningRate); break;
             case 'Momentum': tfOptimizer = tf.train.momentum(learningRate, momentum); break;
             case 'ADAGRAD': tfOptimizer = tf.train.adam(learningRate); break;
-            case 'ADADELTA': tfOptimizer = tf.train.adamgrad(learningRate); break;
+            case 'ADADELTA': tfOptimizer = tf.train.adagrad(learningRate); break;
             case 'ADAM': tfOptimizer = tf.train.adadelta(learningRate); break;
             case 'ADAMAX': tfOptimizer = tf.train.adamax(learningRate); break;
             case 'RMSPROP': tfOptimizer = tf.train.rmsprop(learningRate); break;
